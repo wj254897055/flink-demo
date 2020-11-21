@@ -1,4 +1,4 @@
-package com.wj
+package com.wj.api.wc
 
 import scala.collection.mutable.ArrayBuffer
 

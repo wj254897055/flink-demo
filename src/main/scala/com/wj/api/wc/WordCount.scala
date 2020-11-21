@@ -1,7 +1,7 @@
-package com.wj
+package com.wj.api.wc
 
-import org.apache.flink.api.scala.{ExecutionEnvironment, createTypeInformation}
-
+import org.apache.flink.api.scala.ExecutionEnvironment
+import org.apache.flink.streaming.api.scala.createTypeInformation
 
 /**
  *
@@ -10,7 +10,7 @@ import org.apache.flink.api.scala.{ExecutionEnvironment, createTypeInformation}
 object WordCount {
 
   def main(args: Array[String]): Unit = {
-    val filepath="D:\\ideaProject\\flink-demo\\src\\main\\resources\\wordcount.txt"
+    val filepath = "D:\\ideaProject\\flink-demo\\src\\main\\resources\\wordcount.txt"
     val env = ExecutionEnvironment.getExecutionEnvironment
 
     val value = env.readTextFile(filepath)

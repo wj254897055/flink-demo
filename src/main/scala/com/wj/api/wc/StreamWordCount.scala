@@ -1,8 +1,7 @@
-package com.wj
+package com.wj.api.wc
 
 import org.apache.flink.api.java.utils.ParameterTool
-import org.apache.flink.api.scala.createTypeInformation
-import org.apache.flink.streaming.api.scala.StreamExecutionEnvironment
+import org.apache.flink.streaming.api.scala.{StreamExecutionEnvironment, createTypeInformation}
 
 object StreamWordCount {
 

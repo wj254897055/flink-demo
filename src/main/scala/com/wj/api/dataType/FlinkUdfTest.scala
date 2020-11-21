@@ -1,9 +1,10 @@
-package com.wj.api
+package com.wj.api.dataType
 
-import org.apache.flink.streaming.api.scala.StreamExecutionEnvironment
-import org.apache.flink.api.common.functions.{FilterFunction, RichMapFunction, RuntimeContext}
+import com.wj.api.source.SensorReading
+import org.apache.flink.api.common.functions.{FilterFunction, RichMapFunction}
 import org.apache.flink.api.scala.createTypeInformation
 import org.apache.flink.configuration.Configuration
+import org.apache.flink.streaming.api.scala.StreamExecutionEnvironment
 
 /**
  * flink 自定义函数类 UDF函数

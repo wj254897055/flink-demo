@@ -2,7 +2,7 @@ package com.wj.api.sink
 
 import java.util.Properties
 
-import com.wj.api.SensorReading
+import com.wj.api.source.SensorReading
 import org.apache.flink.api.common.serialization.SimpleStringSchema
 import org.apache.flink.streaming.api.scala._
 import org.apache.flink.streaming.connectors.kafka.{FlinkKafkaConsumer011, FlinkKafkaProducer011}
@@ -30,11 +30,14 @@ object FlinkKafkaSink {
       .map(
         data => {
           val dataArray = data.split(",")
-          SensorReading( dataArray(0).trim, dataArray(1).trim.toLong, dataArray(2).trim.toDouble ).toString  // 转成String方便序列化输出
+          val v1=dataArray(2)
+          val v2=dataArray(2).trim
+          val v3=dataArray(2).trim.toDouble
+          SensorReading( dataArray(0).trim, dataArray(1).trim.toLong, dataArray(2).trim.toDouble).toString  // 转成String方便序列化输出
         }
       )
     //sink
-    dataStream.addSink(new FlinkKafkaProducer011[String]("test",new SimpleStringSchema(),prop))
+    dataStream.addSink(new FlinkKafkaProducer011[String]("sink-test",new SimpleStringSchema(),prop))
     dataStream.print()
 
     env.execute("kafka sink job")

@@ -1,7 +1,7 @@
-package com.wj.api
+package com.wj.api.tranform
 
+import com.wj.api.source.SensorReading
 import org.apache.flink.streaming.api.scala.{StreamExecutionEnvironment, createTypeInformation}
-
 
 /**
  * flinK 的 转换算子
@@ -15,33 +15,30 @@ object TranformTest {
     val stream = env.readTextFile("D:\\ideaProject\\flink-demo\\src\\main\\resources\\sensor.txt")
 
 
-
-
-
     //map
     val stream2 = stream.map(value => {
       val arrys = value.split(",")
       SensorReading(arrys(0).trim, arrys(1).trim.toLong, arrys(2).trim.toDouble)
     }).keyBy("id")
-    //.sum(2)
-    //输出上一次时间戳+1，上一次温度+10；
-        .reduce((x,y)=>SensorReading(x.id,x.timestamp+1,y.temperature+10))
-//        stream2.print()
+      //.sum(2)
+      //输出上一次时间戳+1，上一次温度+10；
+      .reduce((x, y) => SensorReading(x.id, x.timestamp + 1, y.temperature + 10))
+    //        stream2.print()
 
 
-      val splitStream =stream.map( values=>{
-        val arrays= values.split(",")
-        SensorReading(arrays(0).trim, arrays(1).trim.toLong, arrays(2).trim.toDouble)
-      }).split(data=>{
-        if (data.temperature>30)Seq("high") else Seq("low")
-      })
+    val splitStream = stream.map(values => {
+      val arrays = values.split(",")
+      SensorReading(arrays(0).trim, arrays(1).trim.toLong, arrays(2).trim.toDouble)
+    }).split(data => {
+      if (data.temperature > 30) Seq("high") else Seq("low")
+    })
 
-    val high=splitStream.select("high")
-    val low=splitStream.select("low")
-    val all=splitStream.select("high","low")
-//    high.print("high")
-//    low.print("low")
-//    all.print("all")
+    val high = splitStream.select("high")
+    val low = splitStream.select("low")
+    val all = splitStream.select("high", "low")
+    //    high.print("high")
+    //    low.print("low")
+    //    all.print("all")
 
     //使用union 合并多条流
     val unionStream = high.union(low)
@@ -57,7 +54,7 @@ object TranformTest {
         lowData => (lowData.id, "healthy")
       )
 
-//    coMapStreaming.print("coapStreaming")
+    //    coMapStreaming.print("coapStreaming")
 
 
     env.execute("tranform job")

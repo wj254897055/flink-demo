@@ -1,13 +1,11 @@
-package com.wj.api
-
-
+package com.wj.api.source
 
 import java.util.Properties
 
 import org.apache.flink.api.common.serialization.SimpleStringSchema
 import org.apache.flink.api.scala.createTypeInformation
 import org.apache.flink.streaming.api.scala.StreamExecutionEnvironment
-import org.apache.flink.streaming.connectors.kafka.{FlinkKafkaConsumer011, FlinkKafkaConsumer09}
+import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer011
 
 
 //温度传感器 样例类

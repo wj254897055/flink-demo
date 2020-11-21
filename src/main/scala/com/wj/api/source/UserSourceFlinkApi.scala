@@ -1,4 +1,4 @@
-package com.wj.api
+package com.wj.api.source
 
 import org.apache.flink.streaming.api.functions.source.SourceFunction
 import org.apache.flink.streaming.api.scala.{StreamExecutionEnvironment, createTypeInformation}
