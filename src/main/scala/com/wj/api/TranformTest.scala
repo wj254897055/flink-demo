@@ -47,6 +47,7 @@ object TranformTest {
     val unionStream = high.union(low)
     unionStream.print("union")
 
+
     //合并两条流
     val warning = high.map(data => (data.id, data.temperature))
 
