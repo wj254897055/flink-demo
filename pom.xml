@@ -48,19 +48,23 @@
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-scala_2.11</artifactId>
-            <version>1.7.2</version>
+            <version>1.10.0</version>
         </dependency>
+
         <!-- https://mvnrepository.com/artifact/org.apache.flink/flink-streaming-scala -->
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-streaming-scala_2.11</artifactId>
-            <version>1.7.2</version>
+            <version>1.10.0</version>
         </dependency>
+
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-connector-kafka-0.11_2.11</artifactId>
-            <version>1.7.2</version>
+            <version>1.10.0</version>
         </dependency>
+
+
         <!-- https://mvnrepository.com/artifact/org.apache.bahir/flink-connector-redis -->
         <dependency>
             <groupId>org.apache.bahir</groupId>
@@ -71,18 +75,21 @@
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-connector-elasticsearch6_2.11</artifactId>
-            <version>1.7.2</version>
+            <version>1.10.0</version>
         </dependency>
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>5.1.44</version>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.apache.flink/flink-statebackend-rocksdb -->
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-statebackend-rocksdb_2.11</artifactId>
-            <version>1.7.2</version>
+            <version>1.10.0</version>
         </dependency>
+
 
 
     </dependencies>
