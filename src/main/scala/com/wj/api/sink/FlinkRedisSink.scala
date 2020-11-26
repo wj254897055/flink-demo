@@ -27,10 +27,11 @@ object FlinkRedisSink {
 
     //redis sink
     val builder = new FlinkJedisPoolConfig.Builder()
-      .setHost("127.0.0.1")
+      .setHost("192.168.80.100")
       .setPort(6379)
       .build()
     dataStream.addSink(new RedisSink(builder,new MyRedisMapper))
+
     env.execute("redis sink test")
 
   }
@@ -44,6 +45,7 @@ class MyRedisMapper() extends RedisMapper[SensorReading]{
     new RedisCommandDescription(RedisCommand.HSET,"sensor_temperature")
   }
   override def getKeyFromData(t: SensorReading): String = {
+    println("sensor-->"+t)
     t.id
   }
   override def getValueFromData(t: SensorReading): String = {

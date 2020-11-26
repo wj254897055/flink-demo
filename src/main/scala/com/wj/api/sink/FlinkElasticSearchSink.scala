@@ -5,10 +5,9 @@ import java.util
 import com.wj.api.source.SensorReading
 import org.apache.flink.api.common.functions.RuntimeContext
 import org.apache.flink.streaming.api.scala.{StreamExecutionEnvironment, createTypeInformation}
-import org.apache.flink.streaming.connectors.elasticsearch.{ActionRequestFailureHandler, ElasticsearchSinkFunction, RequestIndexer}
+import org.apache.flink.streaming.connectors.elasticsearch.{ElasticsearchSinkFunction, RequestIndexer}
 import org.apache.flink.streaming.connectors.elasticsearch6.ElasticsearchSink
 import org.apache.http.HttpHost
-import org.elasticsearch.action.ActionRequest
 import org.elasticsearch.client.Requests
 
 
