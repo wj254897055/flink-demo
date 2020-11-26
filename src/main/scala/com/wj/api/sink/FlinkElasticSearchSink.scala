@@ -23,6 +23,12 @@ object FlinkElasticSearchSink {
     env.enableCheckpointing(5000)
     val stream = env.readTextFile("D:\\ideaProject\\flink-demo\\src\\main\\resources\\sensor.txt")
 
+    //transform
+    val dataStream =stream.map(values=>{
+      val arrays= values.split(",")
+      SensorReading(arrays(0).trim, arrays(1).trim.toLong, arrays(2).trim.toDouble)
+    })
+
     val httpHost=new util.ArrayList[HttpHost]()
     httpHost.add(new HttpHost("192.168.80.100",9200))
 
@@ -46,13 +52,6 @@ object FlinkElasticSearchSink {
     )
 
     esSinkBuilder.setBulkFlushMaxActions(1)
-
-    //transform
-    val dataStream =stream.map(values=>{
-      val arrays= values.split(",")
-      SensorReading(arrays(0).trim, arrays(1).trim.toLong, arrays(2).trim.toDouble)
-    })
-
 
     dataStream.addSink(esSinkBuilder.build())
 
