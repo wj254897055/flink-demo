@@ -4,7 +4,9 @@ import java.util
 
 import com.wj.api.source.SensorReading
 import org.apache.flink.api.common.functions.RuntimeContext
+import org.apache.flink.streaming.api.functions.timestamps.BoundedOutOfOrdernessTimestampExtractor
 import org.apache.flink.streaming.api.scala.{StreamExecutionEnvironment, createTypeInformation}
+import org.apache.flink.streaming.api.windowing.time.Time
 import org.apache.flink.streaming.connectors.elasticsearch.{ElasticsearchSinkFunction, RequestIndexer}
 import org.apache.flink.streaming.connectors.elasticsearch6.ElasticsearchSink
 import org.apache.http.HttpHost
@@ -28,6 +30,21 @@ object FlinkElasticSearchSink {
       val arrays= values.split(",")
       SensorReading(arrays(0).trim, arrays(1).trim.toLong, arrays(2).trim.toDouble)
     })
+
+
+
+
+    //高并发情况下，乱序的情况下指定watermark
+//    dataStream.assignTimestampsAndWatermarks(new BoundedOutOfOrdernessTimestampExtractor[SensorReading]
+//    (Time.milliseconds(1000)) {  //延迟等待时间
+//      override def extractTimestamp(t: SensorReading): Long = {
+//      t.timestamp*1000
+//      }
+//    })
+
+
+    //对于排好序的数据，不需要延迟触发
+//    dataStream.assignAscendingTimestamps(_.timestamp*1000)
 
     val httpHost=new util.ArrayList[HttpHost]()
     httpHost.add(new HttpHost("192.168.80.100",9200))
