@@ -25,13 +25,14 @@ object ProcessFuntionTest {
 
     //flink 加载kafka
     val kf = env.addSource(new FlinkKafkaConsumer011[String]("test", new SimpleStringSchema(), prop))
-    val dataStream = kf
-      .map(
-        data => {
+    val dataStream = kf.map(
+      data => {
           val dataArray = data.split(",")
-          SensorReading( dataArray(0).trim, dataArray(1).trim.toLong, dataArray(2).trim.toDouble).toString  // 转成String方便序列化输出
+          SensorReading( dataArray(0).trim, dataArray(1).trim.toLong, dataArray(2).trim.toDouble)  // 转成String方便序列化输出
         }
       )
+    dataStream.keyBy(_.id).process(new MyProcess)
+    env.execute("ProcessFunctionTest")
 
 
 

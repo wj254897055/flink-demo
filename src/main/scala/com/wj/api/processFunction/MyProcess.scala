@@ -49,5 +49,8 @@ case class MyProcess() extends KeyedProcessFunction[String,SensorReading,String]
 
   override def onTimer(timestamp: Long,
                        ctx: KeyedProcessFunction[String, SensorReading, String]#OnTimerContext,
-                       out: Collector[String]): Unit = super.onTimer(timestamp, ctx, out)
+                       out: Collector[String]): Unit = {
+    out.collect(ctx.getCurrentKey+" 温度连续上升 ")
+    currentTimer.clear()
+  }
 }
