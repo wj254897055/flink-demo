@@ -1,17 +1,16 @@
-package com.wj.api.sink
+package com.wj.api.processFunction
 
 import java.util.Properties
 
 import com.wj.api.source.SensorReading
 import org.apache.flink.api.common.serialization.SimpleStringSchema
-import org.apache.flink.streaming.api.scala._
-import org.apache.flink.streaming.connectors.kafka.{FlinkKafkaConsumer011, FlinkKafkaProducer011}
+import org.apache.flink.streaming.api.scala.{StreamExecutionEnvironment, createTypeInformation}
+import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer011
 
 /**
- * flink kafka sink
+ * ProcessFunctionTest
  */
-object FlinkKafkaSink {
-
+object ProcessFuntionTest {
   def main(args: Array[String]): Unit = {
 
     val env = StreamExecutionEnvironment.getExecutionEnvironment
@@ -33,10 +32,9 @@ object FlinkKafkaSink {
           SensorReading( dataArray(0).trim, dataArray(1).trim.toLong, dataArray(2).trim.toDouble).toString  // 转成String方便序列化输出
         }
       )
-    //sink
-    dataStream.addSink(new FlinkKafkaProducer011[String]("sink-test",new SimpleStringSchema(),prop))
-    dataStream.print()
-    env.execute("kafka sink job")
-  }
 
+
+
+
+  }
 }
