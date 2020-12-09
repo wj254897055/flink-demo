@@ -46,8 +46,6 @@ object FlinkWindowsTest {
       .timeWindow(Time.seconds(10)) //开时间窗口
       .reduce((d1,d2)=>(d1._1,d1._2.min(d2._2))) //使用reduce做增量数据
 
-
-
     env.execute("flink window test")
 
 
