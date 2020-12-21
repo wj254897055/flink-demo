@@ -34,8 +34,5 @@ object ProcessFuntionTest {
     dataStream.keyBy(_.id).process(new MyProcess)
     env.execute("ProcessFunctionTest")
 
-
-
-
   }
 }
