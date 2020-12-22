@@ -31,7 +31,7 @@ object ProcessFuntionTest {
           SensorReading( dataArray(0).trim, dataArray(1).trim.toLong, dataArray(2).trim.toDouble)  // 转成String方便序列化输出
         }
       )
-    dataStream.keyBy(_.id).process(new MyProcess)
+    val value = dataStream.keyBy(_.id).process(new MyProcess)
     env.execute("ProcessFunctionTest")
 
   }

@@ -43,7 +43,7 @@ class MyJdbcSink() extends RichSinkFunction[SensorReading]{
   //初始化 创建连接和预编译语句
   override def open(parameters: Configuration): Unit = {
     super.open(parameters)
-    conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/test","root","123456")
+    conn=DriverManager.getConnection("jdbc:mysql://192.168.80.100:3306/test","root","123456")
     insertStmt=conn.prepareStatement("insert  into temperature (seneot,temp) values (?,?)")
     updateStmt=conn.prepareStatement("update temperature set temp =? where  seneot=?")
   }
