@@ -16,7 +16,7 @@ case class MyProcess() extends KeyedProcessFunction[String,SensorReading,String]
 
   //定义一个状态 保存定时器的时间
   lazy val currentTimer:ValueState[Long]=getRuntimeContext
-    .getState(new ValueStateDescriptor[Double]("currentTs",classOf[Double]))
+    .getState(new ValueStateDescriptor[Long]("currentTs",classOf[Long]))
 
 
   override def processElement(value: SensorReading,
