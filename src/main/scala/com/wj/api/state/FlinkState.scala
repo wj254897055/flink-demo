@@ -2,7 +2,9 @@ package com.wj.api.state
 
 import org.apache.flink.api.scala._
 import com.wj.api.source.SensorReading
+import org.apache.flink.api.common.functions.RichFlatMapFunction
 import org.apache.flink.api.common.state.{ValueState, ValueStateDescriptor}
+import org.apache.flink.configuration.Configuration
 import org.apache.flink.streaming.api.TimeCharacteristic
 import org.apache.flink.streaming.api.functions.KeyedProcessFunction
 import org.apache.flink.streaming.api.functions.timestamps.BoundedOutOfOrdernessTimestampExtractor
@@ -52,12 +54,13 @@ object FlinkState {
 
     //连续两个温度跳变
     val processedStream = dataStream.keyBy(_.id)
-        .process(new TempChangeAlert(10.0))
+//        .process(new TempChangeAlert(10.0))
+        .flatMap(new TempChangeAlert2(10.0))
 
 
     //    dataStream.print("input data")
-    processedStream.print("processed data")
-    processedStream.getSideOutput( new OutputTag[String]("freezing alert") ).print("alert data")
+//    processedStream.print("processed data")
+//    processedStream.getSideOutput( new OutputTag[String]("freezing alert") ).print("alert data")
 
 
     env.execute("side output test")
@@ -82,4 +85,28 @@ case class TempChangeAlert(threshold:Double) extends KeyedProcessFunction[String
     }
     lastTemState.update(value.temperature)
   }
+}
+
+case class TempChangeAlert2(threshold:Double) extends RichFlatMapFunction[SensorReading,(String,Double,Double)] {
+
+  private var lastTemState:ValueState[Double]=_
+
+  override def open(parameters: Configuration): Unit = {
+    lastTemState=getRuntimeContext
+      .getState(new ValueStateDescriptor[Double]("lastTemp",classOf[Double]))
+
+  }
+
+  override def flatMap(value:SensorReading, collector: Collector[(String, Double, Double)]): Unit = {
+    //获取上次的温度值
+    val last = lastTemState.value()
+    //拿当前的温度值和上次的温度值进行比较，如果大于阈值就报警
+    val diff = (value.temperature - last).abs
+    if (diff>threshold){
+      collector.collect((value.id,last,value.temperature))
+    }
+    lastTemState.update(value.temperature)
+  }
+
+
 }
