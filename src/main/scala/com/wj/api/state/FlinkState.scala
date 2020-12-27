@@ -57,6 +57,22 @@ object FlinkState {
 //        .process(new TempChangeAlert(10.0))
         .flatMap(new TempChangeAlert2(10.0))
 
+    val processedStream2=dataStream.keyBy(_.id)
+        .flatMapWithState[(String,Double,Double),Double]{
+              //如果没有状态，也就是没有数据过来，那么就将当前的状态置为空
+          case (input:SensorReading,None)=>(List.empty,Some(input.temperature))
+            //如果有状态，就和上次的状态值比较
+          case (input:SensorReading,lastTemp:Some[Double])=>{
+            val diff =(input.temperature-lastTemp.get).abs
+            if (diff>10){
+              (List((input.id,lastTemp.get,input.temperature)),Some(input.temperature))
+            }else{
+              (List.empty,Some(input.temperature))
+            }
+          }
+        }
+
+
 
     //    dataStream.print("input data")
 //    processedStream.print("processed data")
